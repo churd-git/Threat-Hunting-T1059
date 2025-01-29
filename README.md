@@ -3,7 +3,7 @@
 **Detection of Command and Scripting Interpreter: PowerShell**
 
 ## Example Scenario:
-Management suspects that some employees may be using TOR browsers to bypass network security controls because recent network logs show unusual encrypted traffic patterns and connections to known TOR entry nodes. Additionally, there have been anonymous reports of employees discussing ways to access restricted sites during work hours. The goal is to detect any TOR usage and analyze related security incidents to mitigate potential risks.
+A mid-sized company, TechCo, was operating within the financial services sector, providing software solutions for clients. The company maintained a robust IT infrastructure with an in-house security team dedicated to monitoring and responding to potential cyber threats. TechCo's security monitoring team noticed unusual activity on the network. An alert triggered from the SIEM system indicated multiple failed login attempts from an internal user account to a sensitive company database. However, the investigation into this event quickly led the security team to a surprising discovery: an employee’s machine was being used to execute suspicious PowerShell scripts that appeared to be obfuscated. The SIEM alert flagged unusual PowerShell activity executed from John’s machine. The PowerShell commands appeared to be obfuscated—seemingly innocent commands that were encoded using base64 and executed via the -EncodedCommand flag.
 
 ---
 
