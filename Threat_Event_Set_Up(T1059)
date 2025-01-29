@@ -4,11 +4,21 @@
 ## Steps the "Bad Actor" took Create Logs and IoCs:
 1. Run the powershell command: 
 powershell -EncodedCommand JABuAGkAbwA9ACIAaHR0cHM6Ly93d3cuZWljYXIub3JnL2Rvd25sb2FkL2VpY2FyLWNvbS0yP3dwb2Rtb2Q9ODg0MjYzMTAxYjlkZGViM2I0MzY2ZGVjZWFjYzQ3ZjMiOwBpAGYgKFAgLT4gJABkAHIAZQA9ACIAQzpcVXNlcnNcVGVzdC1Mb2dpbk1vYmlsZVxEb3dubG9hZHMXam8yODEYwU6rw1io5YmdzZjQ6pFqA== 
+
 2. Run the powershell command:
+powershell -EncodedCommand JABlAGYgKABpACAAZABpAGUAbwA9AC4nPCZsZXNoICFQb3dpZWFuBjjvjtPWI=
+
 3. Run the powershell command:
+powershell -EncodedCommand JABpAHgAMg0NT8c35Twyu9YmIRLY8tgj8Igg=
+
 4. Run the powershell command:
-6. Run the powershell command:
-7. Delete the file.
+powershell -EncodedCommand JABvAGYARQBxAHMAZQBtAEEAPg==
+
+5. Run the powershell command:
+powershell -EncodedCommand JAByAGUAcwB2AHMAZQBuAGQASGVsAA==
+
+6. Delete the file.
+powershell -EncodedCommand JABQAHIAZQBwYQByAHMAYQByY2hhAF4AVABlAHgB
 
 ---
 
