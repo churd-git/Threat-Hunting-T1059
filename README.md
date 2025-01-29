@@ -8,9 +8,9 @@ A mid-sized company, TechCo, was operating within the financial services sector,
 ---
 
 ## High-Level TOR related IoC Discovery Plan:
-1. Check DeviceFileEvents for any tor(.exe) or firefox(.exe) file events
-2. Check DeviceProcessEvents for any signs of installation or usage
-3. Check DeviceNetworkEvents for any signs of outgoing connections over known TOR ports
+1. Check DeviceProcessEvents for commands using the -EncodedCommand Flag
+2. Check DeviceEvents for any signs of installation or usage 
+3. Check AlertEvidence for Antivirus status
 
 ---
 
