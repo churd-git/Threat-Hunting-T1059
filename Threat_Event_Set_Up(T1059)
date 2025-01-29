@@ -2,14 +2,12 @@
 **Unauthorized TOR Browser Installation and Use**
 
 ## Steps the "Bad Actor" took Create Logs and IoCs:
-1. Download the TOR browser installer: https://www.torproject.org/download/
-2. Install it silently: ```tor-browser-windows-x86_64-portable-14.0.1.exe /S```
-3. Opens the TOR browser from the folder on the desktop
-4. Connect to TOR and browse a few sites.
-   - Current Dread Forum: ```g66ol3eb5ujdckzqqfmjsbpdjufmjd5nsgdipvxmsh7rckzlhywlzlqd.onion```
-   - Dark Markets Forum: ```g66ol3eb5ujdckzqqfmjsbpdjufmjd5nsgdipvxmsh7rckzlhywlzlqd.onion/d/DarkNetMarkets```
-   - Current Elysium Market: ```elysiumyeudtha62s4oaowwm7ifmnunz3khs4sllhvinphfm4nirfcqd.onion```
-6. Create a folder on your desktop called ```tor-shopping-list.txt``` and put a few fake (illicit) items in there
+1. Run the powershell command: 
+powershell -EncodedCommand JABuAGkAbwA9ACIAaHR0cHM6Ly93d3cuZWljYXIub3JnL2Rvd25sb2FkL2VpY2FyLWNvbS0yP3dwb2Rtb2Q9ODg0MjYzMTAxYjlkZGViM2I0MzY2ZGVjZWFjYzQ3ZjMiOwBpAGYgKFAgLT4gJABkAHIAZQA9ACIAQzpcVXNlcnNcVGVzdC1Mb2dpbk1vYmlsZVxEb3dubG9hZHMXam8yODEYwU6rw1io5YmdzZjQ6pFqA== 
+2. Run the powershell command:
+3. Run the powershell command:
+4. Run the powershell command:
+6. Run the powershell command:
 7. Delete the file.
 
 ---
