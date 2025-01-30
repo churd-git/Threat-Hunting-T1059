@@ -2,7 +2,8 @@
 **Command and Scripting Interpreter: PowerShell**
 
 ## Steps the "Bad Actor" took Create Logs and IoCs:
-1. Download the file on the following page: https://github.com/churd-git/Threat-Hunting-T1059/blob/main/ScheduledUpdate.ps1
+1. Download the file on the following page: [Command and Scripting Interpreter: PowerShell](https://github.com/churd-git/Threat-Hunting-T1059/blob/main/ScheduledUpdate.ps1)
+
 
 ---
 
