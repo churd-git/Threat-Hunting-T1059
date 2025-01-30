@@ -1,3 +1,6 @@
+![Command-and-Scripting-Interpreter-PowerShell-–-T1059 001-1](https://github.com/user-attachments/assets/a05b0159-1a02-49a3-a5f5-d6f432986001)
+
+
 # Threat Hunt T1059 Report (Command and Scripting Interpreter: PowerShell)
 
 **Detection of Command and Scripting Interpreter: PowerShell**
