@@ -8,17 +8,48 @@ A mid-sized company, TechCo, was operating within the financial services sector,
 ---
 
 ## High-Level TOR related IoC Discovery Plan:
-1. Check DeviceProcessEvents for commands using the -EncodedCommand Flag
-2. Check DeviceEvents for any signs of installation or usage 
-3. Check AlertEvidence for Antivirus status
+1. Check DeviceProcessEvents for commands using the -EncodedCommand Flag.
+2. Check DeviceFileEvents for source of downloaded file.
+3. Check DeviceEvents for any signs of installation or usage. 
+4. Check AlertEvidence to see if the antivirus prevented the file installation.
 
 ---
 
 ## Steps Taken
 
-1. ...
-2. ...
-3. ...
+1. Searched the DeviceProcessEvents for any commands using the -EncodedCommand flag and discovered the device Windowsvm-ch25 had obfuscated commands ran in it's command line by user JohnDoe. These commands were execute via a script named "ScheduledUpdate.ps1". The script was ran six times. These events took place between 2025-01-29T17:03:59.3104497Z and 2025-01-29T17:54:17.4643989Z.
+
+Query used to locate these events:
+DeviceProcessEvents
+| where DeviceName contains "windowsvm-ch25"
+| where AccountDomain == "windowsvm-ch25"
+| where ProcessCommandLine contains "EncodedCommand"
+| where Timestamp >= datetime(2025-01-29T17:03:59.3104497Z) 
+| sort by Timestamp desc  
+
+2. Searched the DeviceFileEvents for the source of the malicous script "ScheduledUpdate.ps1". Learned that the malicious script was downlaoded by Johndoe via Github. The script was downloaded at 2025-01-29T16:30:02.2604543Z and again at 2025-01-29T17:03:33.7503363Z. 
+
+Query used to locate these events:
+DeviceFileEvents
+| where FolderPath contains "ScheduledUpdate.ps1"
+
+3. Checked DeviceEvents for any signs of installation or usage. Based on the logs between "2025-01-29T16:30:30.7973677Z" and "2025-01-29T17:54:23.8772818Z" the ScheduledUpdate.ps1 script was ran multiple times, followed by some obsuficated powershell code, and then appearence of the malicious file "eicar-test-file.com". It is likely thaat the script that was ran included the obfuscated code which was created to download the malicious file and infect the target computer.
+
+Query used to locate these events:
+DeviceEvents
+| where DeviceName contains "windowsvm-ch25"
+| where InitiatingProcessCommandLine contains "-EncodedCommand" or InitiatingProcessCommandLine contains "ScheduledUpdate.ps1"
+| where InitiatingProcessAccountName contains "johndoe"
+| sort by Timestamp desc 
+
+4. Searched the AlertEvidence to check if the anti-virus flagged and blocked the malicious file. The logs indicated that file was recognized and catagerized as "malware". As a result the execution of the malicious file "eicar-test-file.com" was prevented by the anti-virus software.
+
+Query used to locate these events:
+AlertEvidence 
+| where DeviceName contains "windowsvm-ch25"
+| where Timestamp between (datetime(2025-01-29T17:01:55.4918458Z) .. datetime(2025-01-29T17:54:49.5524883Z))
+| sort by Timestamp desc 
+| project Timestamp, Title, Categories, DetectionSource
 
 ---
 
