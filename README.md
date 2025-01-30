@@ -18,7 +18,9 @@ A mid-sized company, TechCo, was operating within the financial services sector,
 ## Steps Taken
 
 1. Searched the DeviceProcessEvents for any commands using the -EncodedCommand flag and discovered the device Windowsvm-ch25 had obfuscated commands ran in it's command line by user JohnDoe. These commands were execute via a script named "ScheduledUpdate.ps1". The script was ran six times. These events took place between 2025-01-29T17:03:59.3104497Z and 2025-01-29T17:54:17.4643989Z.
+
 Query used to locate these events:
+
 DeviceProcessEvents
 | where DeviceName contains "windowsvm-ch25"
 | where AccountDomain == "windowsvm-ch25"
