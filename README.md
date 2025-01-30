@@ -178,7 +178,7 @@ AlertEvidence
 ---
 
 ## Created By:
-- **Author Name**: Carlton Hud
+- **Author Name**: Carlton Hurd
 - **Author Contact**: https://www.linkedin.com/in/carlton-hurd-6069a5120/
 - **Date**: January 29th, 2025
 
