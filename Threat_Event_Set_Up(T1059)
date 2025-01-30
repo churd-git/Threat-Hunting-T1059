@@ -1,9 +1,9 @@
 # Threat Event (Command and Scripting Interpreter: PowerShell)
 **Command and Scripting Interpreter: PowerShell**
 
-## Steps the "Bad Actor" took Create Logs and IoCs:
+## Steps the "Bad Actor" took to create Logs and IOCs:
 1. Download the file on the following page: [Command and Scripting Interpreter: PowerShell](https://github.com/churd-git/Threat-Hunting-T1059/blob/main/ScheduledUpdate.ps1)
-
+2. Run the script.
 ---
 
 ## Tables Used to Detect IoCs:
@@ -98,7 +98,6 @@ DeviceNetworkEvents
 DeviceFileEvents
 | where FileName contains "shopping-list.txt"
 ```
-
 ---
 
 ## Created By:
