@@ -107,45 +107,40 @@ Command and Scripting Interpreter: PowerShell with obfuscated usage was confirme
 
 ## Detection Queries:
 ```kql
-// Installer name == tor-browser-windows-x86_64-portable-(version).exe
-// Detect the installer being downloaded
-DeviceFileEvents
-| where FileName startswith "tor"
-
-// TOR Browser being silently installed
-// Take note of two spaces before the /S (I don't know why)
+// Detect the "EncodedCommand" being used
 DeviceProcessEvents
-| where ProcessCommandLine contains "tor-browser-windows-x86_64-portable-14.0.1.exe  /S"
-| project Timestamp, DeviceName, ActionType, FileName, ProcessCommandLine
+| where DeviceName contains "windowsvm-ch25"
+| where AccountDomain == "windowsvm-ch25"
+| where ProcessCommandLine contains "EncodedCommand"
+| where Timestamp >= datetime(2025-01-29T17:03:59.3104497Z) 
+| sort by Timestamp desc  
 
-// TOR Browser or service was successfully installed and is present on the disk
+// File name == "ScheduledUpdate.ps1"
 DeviceFileEvents
-| where FileName has_any ("tor.exe", "firefox.exe")
-| project  Timestamp, DeviceName, RequestAccountName, ActionType, InitiatingProcessCommandLine
+| where FolderPath contains "ScheduledUpdate.ps1"
 
-// TOR Browser or service was launched
-DeviceProcessEvents
-| where ProcessCommandLine has_any("tor.exe","firefox.exe")
-| project  Timestamp, DeviceName, AccountName, ActionType, ProcessCommandLine
+// Search for "-EncodedCommand" or "ScheduledUpdate.ps1"
+// Commands were used in the commandline & "eicar-test-file.com" was downloaded
+DeviceEvents
+| where DeviceName contains "windowsvm-ch25"
+| where InitiatingProcessCommandLine contains "-EncodedCommand" or InitiatingProcessCommandLine contains "ScheduledUpdate.ps1"
+| where InitiatingProcessAccountName contains "johndoe"
+| sort by Timestamp desc 
 
-// TOR Browser or service is being used and is actively creating network connections
-DeviceNetworkEvents
-| where InitiatingProcessFileName in~ ("tor.exe", "firefox.exe")
-| where RemotePort in (9001, 9030, 9040, 9050, 9051, 9150)
-| project Timestamp, DeviceName, InitiatingProcessAccountName, InitiatingProcessFileName, RemoteIP, RemotePort, RemoteUrl
-| order by Timestamp desc
-
-// User shopping list was created and, changed, or deleted
-DeviceFileEvents
-| where FileName contains "shopping-list.txt"
+// "eicar-test-file.com" was blocked by the Anti-Virus
+AlertEvidence 
+| where DeviceName contains "windowsvm-ch25"
+| where Timestamp between (datetime(2025-01-29T17:01:55.4918458Z) .. datetime(2025-01-29T17:54:49.5524883Z))
+| sort by Timestamp desc 
+| project Timestamp, Title, Categories, DetectionSource
 ```
 
 ---
 
 ## Created By:
-- **Author Name**: Josh Madakor
-- **Author Contact**: https://www.linkedin.com/in/joshmadakor/
-- **Date**: August 31, 2024
+- **Author Name**: Carlton Hud
+- **Author Contact**: https://www.linkedin.com/in/carlton-hurd-6069a5120/
+- **Date**: January 29th, 2025
 
 ## Validated By:
 - **Reviewer Name**: 
