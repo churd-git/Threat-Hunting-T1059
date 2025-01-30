@@ -74,28 +74,34 @@ AlertEvidence
 ---
 
 ## Response Taken
-TOR usage was confirmed on endpoint ______________. The device was isolated and the user's direct manager was notified.
+Command and Scripting Interpreter: PowerShell with obfuscated usage was confirmed on endpoint windowsvm-ch25. A malicous file was downloaded and executed resulting in the download of malware onto the machine however the anti-virus prevented the malware from being executed. The device was isolated and re-imaged to a state prior to the initial brute-force attempt which likely compromised the machine. The user was forced to change his password.  
 
 ---
 
 ## MDE Tables Referenced:
 | **Parameter**       | **Description**                                                              |
 |---------------------|------------------------------------------------------------------------------|
-| **Name**| DeviceFileEvents|
-| **Info**|https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceinfo-table|
-| **Purpose**| Used for detecting TOR download and installation, as well as the shopping list creation and deletion. |
-
-| **Parameter**       | **Description**                                                              |
-|---------------------|------------------------------------------------------------------------------|
 | **Name**| DeviceProcessEvents|
-| **Info**|https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceinfo-table|
-| **Purpose**| Used to detect the silent installation of TOR as well as the TOR browser and service launching.|
+| **Info**|https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table|
+| **Purpose**| Used for checking for commands that used the -EncodedCommand Flag. |
 
 | **Parameter**       | **Description**                                                              |
 |---------------------|------------------------------------------------------------------------------|
-| **Name**| DeviceNetworkEvents|
-| **Info**|https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-devicenetworkevents-table|
-| **Purpose**| Used to detect TOR network activity, specifically tor.exe and firefox.exe making connections over ports to be used by TOR (9001, 9030, 9040, 9050, 9051, 9150).|
+| **Name**| DeviceFileEvents|
+| **Info**|https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-devicefileevents-table|
+| **Purpose**| Searched for the source of the malicous script "ScheduledUpdate.ps1".|
+
+| **Parameter**       | **Description**                                                              |
+|---------------------|------------------------------------------------------------------------------|
+| **Name**| DeviceEvents|
+| **Info**|https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceevents-table|
+| **Purpose**| Used for checking for any signs of installation or usage.|
+
+| **Parameter**       | **Description**                                                              |
+|---------------------|------------------------------------------------------------------------------|
+| **Name**| AlertEvidence|
+| **Info**|https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-alertevidence-table|
+| **Purpose**| Used to check if the anti-virus flagged and blocked the malicious file.|
 
 ---
 
