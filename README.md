@@ -61,15 +61,55 @@ AlertEvidence
 
 ## Chronological Events
 
-1. ...
-2. ...
-3. ...
+Timeline Report for PowerShell-based Attack Simulation (T1059.001)
 
+1. **Initial Suspicious Activity Detected**  
+   **Timestamp:** 2025-01-29 16:30:02.2604543Z  
+   **Event:** A download of the malicious script (`ScheduledUpdate.ps1`) was detected on the system. The file was downloaded by JohnDoe from GitHub.  
+   **Source:** The script `ScheduledUpdate.ps1` was obtained from a suspicious GitHub link.  
+   **Query:** `DeviceFileEvents | where FolderPath contains "ScheduledUpdate.ps1".`  
+   **File Path:** `C:\Users\JohnDoe\Downloads\ScheduledUpdate.ps1`
+
+2. **Malicious Script Execution**  
+   **Timestamp:** 2025-01-29 17:03:33.7503363Z  
+   **Event:** The `ScheduledUpdate.ps1` script was executed. It was found that the script was designed to execute obfuscated PowerShell commands using the `-EncodedCommand` flag.  
+   **Command Line:** `powershell -EncodedCommand <Base64Command>.`  
+   **Details:** This triggered the use of encoded PowerShell commands, marking the beginning of malicious activity on the system.  
+   **Query:** `DeviceProcessEvents | where DeviceName contains "windowsvm-ch25" and AccountDomain == "windowsvm-ch25" and ProcessCommandLine contains "EncodedCommand".`
+
+3. **Repeated Script Execution**  
+   **Timestamp:** 2025-01-29 17:03:59.3104497Z  
+   **Event:** The `ScheduledUpdate.ps1` script was executed multiple times by JohnDoe within the following minutes, running obfuscated PowerShell commands.  
+   **Execution Time:** Multiple runs between 2025-01-29 17:03:59 and 2025-01-29 17:54:17.  
+   **Command Details:** The obfuscated commands attempted to perform additional actions on the machine, likely aimed at file manipulation or system compromise.  
+   **Query:** `DeviceProcessEvents | where DeviceName contains "windowsvm-ch25" and AccountDomain == "windowsvm-ch25" and ProcessCommandLine contains "EncodedCommand".`
+
+4. **Download and Execution of the Malicious File**  
+   **Timestamp:** 2025-01-29 17:03:33.7503363Z  
+   **Event:** The EICAR test file (`malicious file`) was downloaded by the script executed earlier. The script used an encoded PowerShell command to download the file.  
+   **File:** `eicar-test-file.com`  
+   **File Path:** `C:\Users\JohnDoe\Downloads\eicar-test-file.com`  
+   **Antivirus Action:** The Antivirus software flagged and blocked the file upon execution.  
+   **Query:** `DeviceFileEvents | where FolderPath contains "eicar-test-file.com".`  
+   **Antivirus Detection:** The file was flagged as malware by the antivirus.
+
+5. **Antivirus Blocking of Malicious File**  
+   **Timestamp:** 2025-01-29 17:54:49.5524883Z  
+   **Event:** The antivirus software successfully blocked the execution of the `eicar-test-file.com`.  
+   **Antivirus Action:** File was detected as malware, thus preventing the execution.  
+   **Query:** `AlertEvidence | where DeviceName contains "windowsvm-ch25" and Timestamp between (datetime(2025-01-29T17:01:55) .. datetime(2025-01-29T17:54:49)).`  
+   **Action Taken:** File execution was prevented, and the threat was neutralized.
+
+6. **Final Investigation and Evidence Collection**  
+   **Timestamp:** 2025-01-29 17:54:23.8772818Z  
+   **Event:** Continued investigation of the system showed that the script `ScheduledUpdate.ps1` was executing obfuscated PowerShell commands, aiming to download malicious content.  
+   **Process Analysis:** Logs revealed that PowerShell was used repeatedly to run obfuscated scripts that could be linked to malicious activity.  
+   **Query:** `DeviceEvents | where DeviceName contains "windowsvm-ch25" and InitiatingProcessCommandLine contains "-EncodedCommand" or InitiatingProcessCommandLine contains "ScheduledUpdate.ps1".`
 ---
 
 ## Summary
 
-...
+On 2025-01-29, suspicious activity was detected on windowsvm-ch25 when a PowerShell script (ScheduledUpdate.ps1) containing obfuscated commands was executed by JohnDoe. The script, downloaded from GitHub, used the -EncodedCommand flag to execute base64 encoded PowerShell commands. These commands attempted to download and execute a malicious file (eicar-test-file.com), but the antivirus software flagged and blocked the file as malware. Despite the malware being blocked, the compromised system was deemed at risk. Following this, the system was isolated and re-imaged to a secure state prior to the initial brute-force attack. As part of the remediation process, JohnDoe was required to change his password to prevent further compromise.
 
 ---
 
@@ -143,9 +183,9 @@ AlertEvidence
 - **Date**: January 29th, 2025
 
 ## Validated By:
-- **Reviewer Name**: 
+- **Reviewer Name**: Carlton Hurd
 - **Reviewer Contact**: 
-- **Validation Date**: 
+- **Validation Date**: January 29th, 2025 
 
 ---
 
@@ -157,4 +197,4 @@ AlertEvidence
 ## Revision History:
 | **Version** | **Changes**                   | **Date**         | **Modified By**   |
 |-------------|-------------------------------|------------------|-------------------|
-| 1.0         | Initial draft                  | `September  6, 2024`  | `Josh Madakor`   
+| 1.0         | Initial draft                  | `January  29th, 2025`  | `Carlton Hurd`   
