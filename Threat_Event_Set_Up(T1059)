@@ -4,31 +4,67 @@
 ## Steps the "Bad Actor" took Create Logs and IoCs:
 1. Download the file on the following page: [Command and Scripting Interpreter: PowerShell](https://github.com/churd-git/Threat-Hunting-T1059/blob/main/ScheduledUpdate.ps1)
 
-
 ---
 
 ## Tables Used to Detect IoCs:
 | **Parameter**       | **Description**                                                              |
 |---------------------|------------------------------------------------------------------------------|
-| **Name**| DeviceFileEvents|
-| **Info**|https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceinfo-table|
-| **Purpose**| Used for detecting TOR download and installation, as well as the shopping list creation and deletion. |
-
-| **Parameter**       | **Description**                                                              |
-|---------------------|------------------------------------------------------------------------------|
 | **Name**| DeviceProcessEvents|
-| **Info**|https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceinfo-table|
-| **Purpose**| Used to detect the silent installation of TOR as well as the TOR browser and service launching.|
+| **Info**|https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table|
+| **Purpose**| Used for checking for commands that used the -EncodedCommand Flag. |
 
 | **Parameter**       | **Description**                                                              |
 |---------------------|------------------------------------------------------------------------------|
-| **Name**| DeviceNetworkEvents|
-| **Info**|https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-devicenetworkevents-table|
-| **Purpose**| Used to detect TOR network activity, specifically tor.exe and firefox.exe making connections over ports to be used by TOR (9001, 9030, 9040, 9050, 9051, 9150).|
+| **Name**| DeviceFileEvents|
+| **Info**|https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-devicefileevents-table|
+| **Purpose**| Searched for the source of the malicous script "ScheduledUpdate.ps1".|
+
+| **Parameter**       | **Description**                                                              |
+|---------------------|------------------------------------------------------------------------------|
+| **Name**| DeviceEvents|
+| **Info**|https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceevents-table|
+| **Purpose**| Used for checking for any signs of installation or usage.|
+
+| **Parameter**       | **Description**                                                              |
+|---------------------|------------------------------------------------------------------------------|
+| **Name**| AlertEvidence|
+| **Info**|https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-alertevidence-table|
+| **Purpose**| Used to check if the anti-virus flagged and blocked the malicious file.|
 
 ---
 
-## Related Queries:
+## Detection Queries:
+```kql
+// Detect the "EncodedCommand" being used
+DeviceProcessEvents
+| where DeviceName contains "windowsvm-ch25"
+| where AccountDomain == "windowsvm-ch25"
+| where ProcessCommandLine contains "EncodedCommand"
+| where Timestamp >= datetime(2025-01-29T17:03:59.3104497Z) 
+| sort by Timestamp desc  
+
+// File name == "ScheduledUpdate.ps1"
+DeviceFileEvents
+| where FolderPath contains "ScheduledUpdate.ps1"
+
+// Search for "-EncodedCommand" or "ScheduledUpdate.ps1"
+// Commands were used in the commandline & "eicar-test-file.com" was downloaded
+DeviceEvents
+| where DeviceName contains "windowsvm-ch25"
+| where InitiatingProcessCommandLine contains "-EncodedCommand" or InitiatingProcessCommandLine contains "ScheduledUpdate.ps1"
+| where InitiatingProcessAccountName contains "johndoe"
+| sort by Timestamp desc 
+
+// "eicar-test-file.com" was blocked by the Anti-Virus
+AlertEvidence 
+| where DeviceName contains "windowsvm-ch25"
+| where Timestamp between (datetime(2025-01-29T17:01:55.4918458Z) .. datetime(2025-01-29T17:54:49.5524883Z))
+| sort by Timestamp desc 
+| project Timestamp, Title, Categories, DetectionSource
+```
+
+---
+
 ```kql
 // Installer name == tor-browser-windows-x86_64-portable-(version).exe
 // Detect the installer being downloaded
@@ -66,14 +102,14 @@ DeviceFileEvents
 ---
 
 ## Created By:
-- **Author Name**: Josh Madakor
-- **Author Contact**: https://www.linkedin.com/in/joshmadakor/
-- **Date**: August 31, 2024
+- **Author Name**: Carlton Hurd
+- **Author Contact**: https://www.linkedin.com/in/carlton-hurd-6069a5120/
+- **Date**: January 29th, 2025
 
 ## Validated By:
-- **Reviewer Name**: 
+- **Reviewer Name**: Carlton Hurd
 - **Reviewer Contact**: 
-- **Validation Date**: 
+- **Validation Date**: January 29th, 2025 
 
 ---
 
@@ -85,4 +121,4 @@ DeviceFileEvents
 ## Revision History:
 | **Version** | **Changes**                   | **Date**         | **Modified By**   |
 |-------------|-------------------------------|------------------|-------------------|
-| 1.0         | Initial draft                  | `September  6, 2024`  | `Josh Madakor`   
+| 1.0         | Initial draft                  | `January  29th, 2025`  | `Carlton Hurd`   
