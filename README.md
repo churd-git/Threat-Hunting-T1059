@@ -34,7 +34,7 @@ DeviceProcessEvents
 ```
 <img width="1460" alt="Screenshot 2025-01-30 at 12 20 13 AM" src="https://github.com/user-attachments/assets/eedf41a4-ad29-4381-8aa0-935d02cf8342" />
 
-2. Searched the DeviceFileEvents for the source of the malicous script "ScheduledUpdate.ps1". Learned that the malicious script was downlaoded by Johndoe via Github. The script was downloaded at 2025-01-29T16:30:02.2604543Z and again at 2025-01-29T17:03:33.7503363Z. 
+2. Searched the DeviceFileEvents for the source of the malicious script "ScheduledUpdate.ps1". Learned that the malicious script was downloaded by Johndoe via Github. The script was downloaded at 2025-01-29T16:30:02.2604543Z and again at 2025-01-29T17:03:33.7503363Z. 
 
 Query used to locate these events:
 
@@ -44,7 +44,7 @@ DeviceFileEvents
 ```
 <img width="1469" alt="Screenshot 2025-01-30 at 12 20 41 AM" src="https://github.com/user-attachments/assets/63688990-c6b5-4c58-8993-90cdc21f2597" />
 
-3. Checked DeviceEvents for any signs of installation or usage. Based on the logs between "2025-01-29T16:30:30.7973677Z" and "2025-01-29T17:54:23.8772818Z" the ScheduledUpdate.ps1 script was ran multiple times, followed by some obsuficated powershell code, and then appearence of the malicious file "eicar-test-file.com". It is likely thaat the script that was ran included the obfuscated code which was created to download the malicious file and infect the target computer.
+3. Checked DeviceEvents for any signs of installation or usage. Based on the logs between "2025-01-29T16:30:30.7973677Z" and "2025-01-29T17:54:23.8772818Z" the ScheduledUpdate.ps1 script was ran multiple times, followed by some obfuscated powershell code, and then appearance of the malicious file "eicar-test-file.com". It is likely that the script that was ran included the obfuscated code which was created to download the malicious file and infect the target computer.
 
 Query used to locate these events:
 ```kql
@@ -56,7 +56,7 @@ DeviceEvents
 ```
 <img width="1483" alt="Screenshot 2025-01-30 at 12 21 49 AM" src="https://github.com/user-attachments/assets/a7a4b0f7-aab2-494a-88c8-997c825a09b2" />
 
-4. Searched the AlertEvidence to check if the anti-virus flagged and blocked the malicious file. The logs indicated that file was recognized and catagerized as "malware". As a result the execution of the malicious file "eicar-test-file.com" was prevented by the anti-virus software.
+4. Searched the AlertEvidence to check if the antivirus flagged and blocked the malicious file. The logs indicated that the file was recognized and categorized as "malware". As a result the execution of the malicious file "eicar-test-file.com" was prevented by the anti-virus software.
 
 Query used to locate these events:
 ```kql
@@ -125,7 +125,7 @@ On 2025-01-29, suspicious activity was detected on windowsvm-ch25 when a PowerSh
 ---
 
 ## Response Taken
-Command and Scripting Interpreter: PowerShell with obfuscated usage was confirmed on endpoint windowsvm-ch25. A malicous file was downloaded and executed resulting in the download of malware onto the machine however the anti-virus prevented the malware from being executed. The device was isolated and re-imaged to a state prior to the initial brute-force attempt which likely compromised the machine. The user was forced to change his password.  
+Command and Scripting Interpreter: PowerShell with obfuscated usage was confirmed on endpoint windowsvm-ch25. A malicious file was downloaded and executed resulting in the download of malware onto the machine however the anti-virus prevented the malware from being executed. The device was isolated and re-imaged to a state prior to the initial brute-force attempt which likely compromised the machine. The user was forced to change his password.  
 
 ---
 
